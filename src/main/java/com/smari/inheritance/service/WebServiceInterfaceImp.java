@@ -7,8 +7,7 @@ import com.smari.inheritance.entity.RestService;
 import com.smari.inheritance.entity.SoapService;
 import com.smari.inheritance.dto.WebServiceModel;
 import com.smari.inheritance.entity.WebService;
-import com.smari.inheritance.mapper.RestServiceMapper;
-import com.smari.inheritance.mapper.SoapServiceMapper;
+import com.smari.inheritance.mapper.WebServiceMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,26 +21,23 @@ public class WebServiceInterfaceImp implements WebServiceInterface{
     WebServiceRepository repository;
 
     @Autowired
-    RestServiceMapper restMapper;
-
-    @Autowired
-    SoapServiceMapper soapMapper;
+    WebServiceMapper mapper;
 
     @Override
     public WebServiceModel createWebService(WebServiceModel model) {
         if(model instanceof RestServiceModel){
-           return restMapper.convertEntityToModel(repository.save(restMapper.convertModelToEntity((RestServiceModel)model)));
+           return mapper.convertEntityToModel(repository.save(mapper.convertModelToEntity((RestServiceModel)model)));
         }else{
-            return soapMapper.convertEntityToModel(repository.save(soapMapper.convertModelToEntity((SoapServiceModel)model)));
+            return mapper.convertEntityToModel(repository.save(mapper.convertModelToEntity((SoapServiceModel)model)));
         }
     }
 
     @Override
     public WebServiceModel updateWebService(WebServiceModel model) {
         if(model instanceof RestServiceModel){
-            return restMapper.convertEntityToModel(repository.save(restMapper.convertModelToEntity((RestServiceModel)model)));
+            return mapper.convertEntityToModel(repository.save(mapper.convertModelToEntity((RestServiceModel)model)));
         }else{
-            return soapMapper.convertEntityToModel(repository.save(soapMapper.convertModelToEntity((SoapServiceModel)model)));
+            return mapper.convertEntityToModel(repository.save(mapper.convertModelToEntity((SoapServiceModel)model)));
         }
     }
 
@@ -55,11 +51,16 @@ public class WebServiceInterfaceImp implements WebServiceInterface{
         Optional<WebService>  optional = repository.findById(id);
         if(optional.isPresent()){
             if(optional.get() instanceof RestService){
-                return restMapper.convertEntityToModel((RestService) optional.get());
+                return mapper.convertEntityToModel((RestService) optional.get());
             }
-            return soapMapper.convertEntityToModel((SoapService) optional.get());
+            return mapper.convertEntityToModel((SoapService) optional.get());
         }
         return null;
     }
-
+    @Override
+    public List<WebServiceModel> getAllProducts() {
+        List<WebService> products = repository.findAll();
+        List<WebServiceModel>  productModels = products.stream().map(mapper::convertEntityToModel).collect(Collectors.toList());
+        return productModels;
+    }
 }
