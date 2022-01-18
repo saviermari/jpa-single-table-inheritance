@@ -58,9 +58,9 @@ public class WebServiceInterfaceImp implements WebServiceInterface{
         return null;
     }
     @Override
-    public List<WebServiceModel> getAllProducts() {
-        List<WebService> products = repository.findAll();
-        List<WebServiceModel>  productModels = products.stream().map(mapper::convertEntityToModel).collect(Collectors.toList());
-        return productModels;
+    public List<WebServiceModel> getAllWebServices() {
+        List<WebService> services = repository.findAll();
+        List<WebServiceModel>  serviceModels = services.stream().map(mapper::convertEntityToModel).collect(Collectors.toList());
+        return serviceModels;
     }
 }

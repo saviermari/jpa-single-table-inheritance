@@ -9,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/rest/v1/", produces = { MediaType.APPLICATION_JSON_VALUE })
@@ -17,11 +18,11 @@ public class RestServiceController {
     private WebServiceInterface service;
 
     @PostMapping("/restServices")
-    public WebServiceModel createCustomer(@RequestBody RestServiceModel model) {
+    public WebServiceModel createService(@RequestBody RestServiceModel model) {
         return service.createWebService(model);
     }
     @PutMapping("/restServices/{id}")
-    public WebServiceModel updateProduct(@RequestBody RestServiceModel model, @PathVariable Long id){
+    public WebServiceModel updateService(@RequestBody RestServiceModel model, @PathVariable Long id){
         WebServiceModel restService = service.getWebService(id);
         if(service == null){
             throw new RuntimeException("Not found");
@@ -33,12 +34,16 @@ public class RestServiceController {
     }
 
     @DeleteMapping("/restServices/{id}")
-    public void deleteProduct(@PathVariable Long id){
+    public void deleteService(@PathVariable Long id){
         service.deleteWebService(id);
     }
 
     @GetMapping("/restServices/{id}")
-    public WebServiceModel getProduct(@PathVariable Long id){
+    public WebServiceModel getService(@PathVariable Long id){
         return service.getWebService(id);
+    }
+    @GetMapping("/restServices")
+    public List<WebServiceModel> getAllServices(){
+        return service.getAllWebServices().stream().filter(model->model.getServiceType().equals("REST")).collect(Collectors.toList());
     }
 }

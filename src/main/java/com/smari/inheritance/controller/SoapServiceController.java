@@ -8,6 +8,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/rest/v1/", produces = { MediaType.APPLICATION_JSON_VALUE })
@@ -28,5 +29,8 @@ public class SoapServiceController {
     public WebServiceModel getProduct(@PathVariable Long id){
         return service.getWebService(id);
     }
-
+    @GetMapping("/soapServices")
+    public List<WebServiceModel> getAllServices(){
+        return service.getAllWebServices().stream().filter(model->model.getServiceType().equals("SOAP")).collect(Collectors.toList());
+    }
 }

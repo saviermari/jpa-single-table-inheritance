@@ -9,5 +9,5 @@ public interface WebServiceInterface {
     WebServiceModel updateWebService(WebServiceModel model);
     void deleteWebService(Long id);
     WebServiceModel getWebService(Long id);
-    public List<WebServiceModel> getAllProducts();
+    public List<WebServiceModel> getAllWebServices();
 }

@@ -16,6 +16,9 @@ public class WebService {
     @Column(name = "name", nullable = false)
     private String name;
 
+    @Column(name = "service_type", insertable=false , updatable=false, nullable = false)
+    private String serviceType;
+
     public Long getId() {
         return id;
     }
@@ -30,5 +33,13 @@ public class WebService {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getServiceType() {
+        return serviceType;
+    }
+
+    public void setServiceType(String serviceType) {
+        this.serviceType = serviceType;
     }
 }

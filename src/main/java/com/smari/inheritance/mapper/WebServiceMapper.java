@@ -28,6 +28,7 @@ public class WebServiceMapper {
                 model.setId(entity.getId());
             }
             model.setName(entity.getName());
+            model.setServiceType(entity.getServiceType());
         }
         return model;
     }
